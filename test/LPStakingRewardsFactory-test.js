@@ -36,6 +36,7 @@ describe("LPStakingRewardsFactory", function () {
     await (await LPStakingRewardsFactory.createLPStakingRewards(
       LPTest.address,
       UNISX.address,
+      admin,
       1,
       Math.round(new Date().getTime() / 1000),
     )).wait()
@@ -49,6 +50,7 @@ describe("LPStakingRewardsFactory", function () {
     await (await LPStakingRewardsFactory.createLPStakingRewards(
       LPTest.address,
       UNISX.address,
+      admin,
       1,
       Math.round(new Date().getTime() / 1000),
     )).wait()
@@ -64,6 +66,7 @@ describe("LPStakingRewardsFactory", function () {
     expect(LPStakingRewardsFactory.connect(signers.staker).createLPStakingRewards(
       LPTest.address,
       UNISX.address,
+      admin,
       1,
       Math.round(new Date().getTime() / 1000),
     )).to.be.revertedWith('Ownable: caller is not the owner');

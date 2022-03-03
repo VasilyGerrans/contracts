@@ -35,6 +35,7 @@ describe("UNISXStakingRewards", function () {
       UNISX.address,
       UNISX.address,
       xUNISX.address,
+      admin,
       REWARD_RATE,
     )
     await UNISXStakingRewards.deployed()
@@ -47,8 +48,8 @@ describe("UNISXStakingRewards", function () {
   });
 
   it("Should give reward to staker", async function () {
-    /* Give reward token to UNISXStakingRewards contract */
-    await UNISX.transfer(UNISXStakingRewards.address, 2_000_000n)
+    /* Give allowance for reward token to UNISXStakingRewards contract */
+    await UNISX.approve(UNISXStakingRewards.address, 2_000_000n)
 
     /* Stake */
 
@@ -125,7 +126,7 @@ describe("UNISXStakingRewards", function () {
 
   it('Rewards must change after setRewardRate', async () => {
     /* Give reward token to UNISXStakingRewards contract */
-    await UNISX.transfer(UNISXStakingRewards.address, 2_000_000n)
+    await UNISX.approve(UNISXStakingRewards.address, 2_000_000n)
 
     /* Stake */
 

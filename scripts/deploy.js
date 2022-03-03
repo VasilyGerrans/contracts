@@ -1,9 +1,11 @@
 async function deploy() {
+  const [admin] = await ethers.provider.listAccounts()
 
   const UNISX_Supply = 10n ** (18n /*decimals*/ + 6n /* 1 million */)
   const REWARD_RATE = 
-      1000n * // 1000 tokens to distribute per year
+      80_000n * // tokens to distribute per 3 years
       (10n ** 18n) // decimals
+      / 3n // per year
       / 365n / 24n / 3600n // seconds per year
 
   const UNISXStakingRewardsContract = await ethers.getContractFactory("UNISXStakingRewards")
@@ -22,6 +24,7 @@ async function deploy() {
     UNISX.address,
     UNISX.address,
     xUNISX.address,
+    admin,
     REWARD_RATE,
   )
   await StakingRewards.deployed()

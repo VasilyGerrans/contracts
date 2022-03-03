@@ -37,6 +37,7 @@ describe("LPStakingRewards", function () {
     LPStakingRewards = await LPStakingRewardsContract.deploy(
       LPTest.address,
       UNISX.address,
+      admin,
       REWARD_RATE,
       periodFinish,
     )
@@ -46,7 +47,7 @@ describe("LPStakingRewards", function () {
   it("Should give reward to staker", async function () {
 
     /* Give reward token to LPStakingRewards contract */
-    await UNISX.transfer(LPStakingRewards.address, 2_000_000n)
+    await UNISX.approve(LPStakingRewards.address, 2_000_000n)
 
     /* Stake */
 
@@ -83,7 +84,7 @@ describe("LPStakingRewards", function () {
 
   it("Should not give reward after periodFinish", async () => {
     /* Give reward token to LPStakingRewards contract */
-    await UNISX.transfer(LPStakingRewards.address, 2_000_000n)
+    await UNISX.approve(LPStakingRewards.address, 2_000_000n)
 
 
     /* Give balance and approve */
@@ -130,7 +131,7 @@ describe("LPStakingRewards", function () {
 
   it('Rewards must change after setRewardRate', async () => {
     /* Give reward token to LPStakingRewards contract */
-    await UNISX.transfer(LPStakingRewards.address, 2_000_000n)
+    await UNISX.approve(LPStakingRewards.address, 2_000_000n)
 
     /* Stake */
 

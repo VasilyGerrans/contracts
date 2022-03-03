@@ -13,6 +13,8 @@ contract UNISXStakingRewards is Ownable {
     IERC20 public stakingToken;
     xUNISX public xUNISXToken;
 
+    address public rewardPayer;
+
     uint public rewardRate;
     uint public lastUpdateTime;
     uint public rewardPerTokenStored;
@@ -27,11 +29,13 @@ contract UNISXStakingRewards is Ownable {
         address _stakingToken,
         address _rewardsToken,
         address _xUNISXToken,
+        address _rewardPayer,
         uint _rewardRate
     ) {
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardsToken);
         xUNISXToken = xUNISX(_xUNISXToken);
+        rewardPayer = _rewardPayer;
         rewardRate = _rewardRate;
     }
 
@@ -82,9 +86,13 @@ contract UNISXStakingRewards is Ownable {
     function getReward() external updateReward(msg.sender) returns (uint) {
         uint reward = rewards[msg.sender];
         rewards[msg.sender] = 0;
-        rewardsToken.transfer(msg.sender, reward);
+        rewardsToken.transferFrom(rewardPayer, msg.sender, reward);
         emit RewardPaid(msg.sender, reward);
         return reward;
+    }
+
+    function setRewardPayer(address _rewardPayer) external onlyOwner() {
+      rewardPayer = _rewardPayer;
     }
 
     function setRewardRate(uint _rewardRate) external updateReward(address(0)) onlyOwner() {

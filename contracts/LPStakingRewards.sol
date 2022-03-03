@@ -12,6 +12,8 @@ contract LPStakingRewards is Ownable {
     IERC20 public stakingToken;
     uint public periodFinish;
 
+    address public rewardPayer;
+
     uint public rewardRate;
     uint public lastUpdateTime;
     uint public rewardPerTokenStored;
@@ -25,11 +27,13 @@ contract LPStakingRewards is Ownable {
     constructor(
         address _stakingToken,
         address _rewardsToken,
+        address _rewardPayer,
         uint _rewardRate,
         uint _periodFinish
     ) {
         stakingToken = IERC20(_stakingToken);
         rewardsToken = IERC20(_rewardsToken);
+        rewardPayer = _rewardPayer;
         rewardRate = _rewardRate;
         periodFinish = _periodFinish;
     }
@@ -82,9 +86,13 @@ contract LPStakingRewards is Ownable {
     function getReward() external updateReward(msg.sender) returns (uint) {
         uint reward = rewards[msg.sender];
         rewards[msg.sender] = 0;
-        rewardsToken.transfer(msg.sender, reward);
+        rewardsToken.transferFrom(rewardPayer, msg.sender, reward);
         emit RewardPaid(msg.sender, reward);
         return reward;
+    }
+
+    function setRewardPayer(address _rewardPayer) external onlyOwner() {
+      rewardPayer = _rewardPayer;
     }
 
     function setRewardRate(uint _rewardRate) external updateReward(address(0)) onlyOwner() {

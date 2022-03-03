@@ -13,6 +13,7 @@ contract LPStakingRewardsFactory is Ownable {
       address indexed stakingRewards,
       address indexed stakingToken,
       address rewardsToken,
+      address rewardPayer,
       uint rewardRate,
       uint periodFinish
     );
@@ -20,6 +21,7 @@ contract LPStakingRewardsFactory is Ownable {
     function createLPStakingRewards(
       address _stakingToken,
       address _rewardsToken,
+      address _rewardPayer,
       uint _rewardRate,
       uint _periodFinish
     ) external onlyOwner() {
@@ -29,6 +31,7 @@ contract LPStakingRewardsFactory is Ownable {
       LPStakingRewards rewards = new LPStakingRewards(
         _stakingToken, 
         _rewardsToken, 
+        _rewardPayer,
         _rewardRate, 
         _periodFinish
       );
@@ -41,6 +44,7 @@ contract LPStakingRewardsFactory is Ownable {
         address(rewards),
         _stakingToken, 
         _rewardsToken, 
+        _rewardPayer,
         _rewardRate, 
         _periodFinish
       );
