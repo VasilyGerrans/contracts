@@ -24,7 +24,7 @@ There are three staking contracts:
 
 **LPStakingRewards** and **UNISXStakingRewards** are significantly simplified versions of the [Synthetix StakingRewards contract](https://github.com/Synthetixio/synthetix/blob/master/contracts/StakingRewards.sol) (audited by [iosiro](https://docs.synthetix.io/releases/)).
 
-All three contracts are Ownable as defined by OpenZeppelin, and during operation will be owned by the DAO.
+All three contracts are Ownable as defined by OpenZeppelin and during operation will be owned by the DAO.
 
 LPStakingRewardsFactory contains only one method – `createLPStakingRewards` – which in turn has the `onlyOwner` modifier and as such is not considered a security concern. The function allows the DAO to deploy LPStakingRewards contracts for a given staking token under the condition that either no LPStakingRewards for such a staking token had been deployed before or that the prior deployed LPStakingRewards is no longer generating rewards. 
 
